@@ -3,7 +3,7 @@
 
 POETRY ?= poetry
 PYTEST_OPTS ?=
-SRC_DIRS := assistant_core
+SRC_DIRS := assistant_core tests
 
 .PHONY: help install lock update format lint test clean
 
