@@ -2,10 +2,9 @@ from langchain_openai import ChatOpenAI
 
 from assistant_core.settings import OPENAI_API_KEY
 
-GPT_4O_MINI = "gpt-4o-mini"
-GPT_41_MINI = "gpt-4.1-mini"
 GPT_5_NANO = "gpt-5-nano"
 GPT_5_MINI = "gpt-5-mini"
+GPT_5 = "gpt-5"
 
 DEFAULT_MODEL = GPT_5_NANO
 
