@@ -43,4 +43,9 @@ jobs:
 
       - name: Run tests
         run: |
-          poetry run pytest
+          poetry run pytest --cov=assistant_core --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage.xml

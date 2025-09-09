@@ -5,7 +5,9 @@ Lightweight core primitives and builders for assembling agent workflows with lan
 This package provides Node implementations, state types, builders, and a small factory pattern to compose
 StateGraph-based agents used by the broader assistant projects.
 
-<!-- Badges: add CI/coverage badges when available -->
+[![CI](https://github.com/LOBICA/assistant_core/actions/workflows/main.yml/badge.svg)](https://github.com/LOBICA/assistant_core/actions)
+[![Coverage](https://img.shields.io/codecov/c/github/LOBICA/assistant_core.svg?label=coverage)](https://codecov.io/gh/LOBICA/assistant_core)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ## Quick start
 

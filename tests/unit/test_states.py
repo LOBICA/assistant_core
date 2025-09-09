@@ -1,3 +1,4 @@
+from types import NoneType
 from typing import Annotated, get_args, get_type_hints
 from unittest.mock import Mock
 
@@ -13,7 +14,7 @@ def assign_to_state(State, values):
     for key, value in values.items():
         annot = hints.get(key)
         reducer = get_args(annot)[1]
-        if isinstance(reducer, type(None)):
+        if reducer is NoneType:
             state[key] = value
         else:
             state[key] = reducer(state.get(key), value)
