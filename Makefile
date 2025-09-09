@@ -5,7 +5,7 @@ POETRY ?= poetry
 PYTEST_OPTS ?=
 SRC_DIRS := assistant_core tests
 
-.PHONY: help install lock update format lint test pre-commit clean
+.PHONY: help install lock update format lint test pre-commit release clean
 
 help:
 	@printf "Available targets:\n"
@@ -16,6 +16,7 @@ help:
 	@printf "  lint           Run linter (flake8)\n"
 	@printf "  test           Run pytest\n"
 	@printf "  pre-commit     Install and run pre-commit hooks\n"
+	@printf "  release        Bump version, tag and push (usage: make release VERSION=patch)\n"
 	@printf "  clean          Remove build/test caches\n"
 
 install:
@@ -43,6 +44,11 @@ test:
 pre-commit:
 	$(POETRY) run pre-commit install
 	$(POETRY) run pre-commit run --all-files
+
+release:
+	# Usage: make release VERSION=patch (or minor/major or explicit x.y.z)
+	$(shell test -n "$(VERSION)" || echo "Missing VERSION. Usage: make release VERSION=patch" >&2)
+	./scripts/new_version.sh $(VERSION)
 
 clean:
 	@find . -type d -name "__pycache__" -print0 | xargs -0 -r rm -rf

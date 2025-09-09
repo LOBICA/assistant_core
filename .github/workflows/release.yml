@@ -1,0 +1,65 @@
+name: Create GitHub Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g. v1.2.3)'
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    name: Create release from tag
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine tag
+        id: vars
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ -n "${{ github.event.inputs.tag }}" ]; then
+              echo "tag=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+            else
+              echo "No tag provided for workflow_dispatch. Provide `tag` input or run on a tag push." >&2
+              exit 1
+            fi
+          else
+            # On push to refs/tags/<tag>
+            echo "tag=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Extract changelog section
+        id: changelog
+        run: |
+          TAG="${{ steps.vars.outputs.tag }}"
+          echo "Looking for CHANGELOG.md entry for: $TAG"
+          if [ -f CHANGELOG.md ]; then
+            # Print lines between the heading for the tag (e.g. "## v1.2.3") and the next heading
+            perl -0777 -ne 'if (/^##\s*'"$TAG"'\b(.*?)^##\s+/ms) { print $1 } elsif (/^##\s*'"$TAG"'\b(.*)/ms) { print $1 }' CHANGELOG.md > release_notes.txt || true
+          fi
+          if [ -s release_notes.txt ]; then
+            echo "body<<EOF" >> "$GITHUB_OUTPUT"
+            cat release_notes.txt >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+          else
+            echo "body=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.vars.outputs.tag }}
+          release_name: ${{ steps.vars.outputs.tag }}
+          body: ${{ steps.changelog.outputs.body }}
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
