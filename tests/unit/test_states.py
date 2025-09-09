@@ -13,7 +13,7 @@ def assign_to_state(State, values):
     for key, value in values.items():
         annot = hints.get(key)
         reducer = get_args(annot)[1]
-        if reducer is type(None):
+        if isinstance(reducer, type(None)):
             state[key] = value
         else:
             state[key] = reducer(state.get(key), value)

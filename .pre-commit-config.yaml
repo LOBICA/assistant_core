@@ -1,0 +1,20 @@
+repos:
+  - repo: local
+    hooks:
+      - id: black-poetry
+        name: black (poetry)
+        entry: poetry run black
+        language: system
+        types: [python]
+
+      - id: isort-poetry
+        name: isort (poetry)
+        entry: poetry run isort
+        language: system
+        types: [python]
+
+      - id: flake8-poetry
+        name: flake8 (poetry)
+        entry: poetry run flake8 --config .flake8
+        language: system
+        types: [python]

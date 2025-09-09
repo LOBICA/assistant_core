@@ -48,6 +48,40 @@ make lint
 
 CI runs the same formatting and lint checks on PRs. Fixing issues locally avoids CI noise.
 
+### pre-commit (recommended)
+
+We recommend installing `pre-commit` locally to run formatters and linters automatically on each commit.
+
+Install and enable hooks (recommended via Makefile targets):
+
+```bash
+# install project dependencies including dev packages
+make install
+
+# install pre-commit hooks and run them across the repo
+make pre-commit
+```
+
+Updating pre-commit hooks
+
+The repository uses local pre-commit hooks that call the Poetry-installed tools (for example `poetry run black`). That means
+these hooks use the versions defined in `pyproject.toml` (dev dependencies). Follow the guidance below depending on what you changed:
+
+
+- If you changed tool versions (for example bumped `black`/`isort`/`flake8` in `pyproject.toml`):
+
+```bash
+make install
+make pre-commit
+```
+
+-- If you changed `.pre-commit-config.yaml` itself (added a new hook or modified entries):
+
+```bash
+# reinstall hooks to pick up config changes
+make pre-commit
+```
+
 ## Coding guidelines
 
 - Formatting: `black` is the canonical formatter. Use `isort` for import ordering. `make format` runs both.

@@ -5,7 +5,7 @@ POETRY ?= poetry
 PYTEST_OPTS ?=
 SRC_DIRS := assistant_core tests
 
-.PHONY: help install lock update format lint test clean
+.PHONY: help install lock update format lint test pre-commit clean
 
 help:
 	@printf "Available targets:\n"
@@ -15,6 +15,7 @@ help:
 	@printf "  format         Run code formatters (black, isort)\n"
 	@printf "  lint           Run linter (flake8)\n"
 	@printf "  test           Run pytest\n"
+	@printf "  pre-commit     Install and run pre-commit hooks\n"
 	@printf "  clean          Remove build/test caches\n"
 
 install:
@@ -38,6 +39,10 @@ lint:
 
 test:
 	$(POETRY) run pytest $(PYTEST_OPTS)
+
+pre-commit:
+	$(POETRY) run pre-commit install
+	$(POETRY) run pre-commit run --all-files
 
 clean:
 	@find . -type d -name "__pycache__" -print0 | xargs -0 -r rm -rf
