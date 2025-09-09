@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## NEXT
+
+## v0.5.0
 * Updated project documentation
 * Add base builder and nodes for assistant workflows
 
