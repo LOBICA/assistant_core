@@ -12,6 +12,7 @@ langchain = "^0.3.17"
 langchain-openai = "^0.3.3"
 langgraph = "^0.2.68"
 python-dotenv = "^1.0.1"
+langchain-tavily = "^0.2.11"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.3.1"
