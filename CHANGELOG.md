@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Refactor the builder module
 * Add builder for Tavily search tool
 
 ## v0.5.0
