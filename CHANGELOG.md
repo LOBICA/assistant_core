@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Add builder for Tavily search tool
 
 ## v0.5.0
 * Updated project documentation
