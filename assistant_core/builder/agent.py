@@ -1,24 +1,8 @@
-from abc import ABC, abstractmethod
-
 from langgraph.graph import END, StateGraph
 from langgraph.prebuilt import ToolNode, tools_condition
 
-from assistant_core.factories import BaseAgentFactory
-
-
-class BuilderContext:
-    def __init__(self, agent_factory: BaseAgentFactory):
-        self.model = agent_factory.model
-        self.graph_builder = agent_factory.create_graph_builder()
-        self.agent_node = agent_factory.create_agent_node()
-        self.resolver_node = agent_factory.create_resolver_node()
-        self.tools = agent_factory.create_base_tools()
-
-
-class BaseBuilder(ABC):
-    @abstractmethod
-    def build(self, context: BuilderContext):
-        raise NotImplementedError("Subclasses must implement this method")
+from .base import BaseBuilder, BaseDirector
+from .context import BuilderContext
 
 
 class AgentBuilder(BaseBuilder):
@@ -50,28 +34,6 @@ class AgentBuilder(BaseBuilder):
             context.resolver_node.name,
             context.resolver_node,
         )
-
-
-class BaseDirector(ABC):
-    def __init__(self):
-        self.builders: list[BaseBuilder] = []
-
-    def add_builder(self, builder: BaseBuilder):
-        """
-        Add a builder to the director.
-
-        :param builder: An instance of BaseBuilder to be added.
-        """
-        self.builders.append(builder)
-
-    def make(self, context: BuilderContext) -> StateGraph:
-        """
-        Execute the build process for all registered builders.
-        """
-        for builder in self.builders:
-            builder.build(context)
-
-        return context.graph_builder
 
 
 class SingleAgentDirector(BaseDirector):
