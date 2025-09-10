@@ -71,9 +71,9 @@ class TavilyBuilder(BaseBuilder):
     def build(self, context: BuilderContext) -> None:
         """Build and register the Tavily tool on the provided context.
 
-        If the API key is not set the function logs a warning and returns
-        without modifying the context. This keeps the example safe to run
-        in environments where credentials are not available.
+        If the API key is not set, this method raises a BuilderError.
+        This makes the behavior explicit for callers who expect the tool
+        to be present, rather than silently continuing.
         """
 
         if self.tavily_api_key is None:
