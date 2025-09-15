@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## NEXT
+
+## 0.6.2
 * Change version tags
 
 ## v0.6.1
