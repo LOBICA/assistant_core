@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Change version tags
 
 ## v0.6.1
 * Change format of user's answers for question node
