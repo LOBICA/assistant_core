@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Change format of user's answers for question node
 
 ## v0.6.0
 * Refactor the builder module
