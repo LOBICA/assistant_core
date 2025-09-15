@@ -80,7 +80,8 @@ class QuestionNode(BaseNode):
             answer = user_input["answer"]
         else:
             warnings.warn(
-                "User input should be a dict with an 'answer' key. String format is deprecated and will be removed in a future version.",
+                "User input should be a dict with an 'answer' key. "
+                "String format is deprecated and will be removed in a future version.",
                 DeprecationWarning,
             )
             answer = user_input
