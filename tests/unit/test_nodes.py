@@ -102,7 +102,7 @@ async def test_question_node(mock_config):
     )
 
     with patch(
-        "assistant_core.nodes.nodes.interrupt", return_value="Yes"
+        "assistant_core.nodes.nodes.interrupt", return_value={"answer": "Yes"}
     ) as mock_interrupt:
         response = await question_node(state, config=mock_config)
         mock_interrupt.assert_called_once_with({"question": "Should we proceed?"})

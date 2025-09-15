@@ -1,4 +1,5 @@
 import logging
+import warnings
 
 from langchain_core.messages import BaseMessage, SystemMessage
 from langchain_core.runnables import RunnableConfig
@@ -74,7 +75,16 @@ class QuestionNode(BaseNode):
     async def __call__(
         self, state: QuestionState, config: RunnableConfig
     ) -> QuestionState:
-        answer = interrupt({"question": state["question"]})
+        user_input = interrupt({"question": state["question"]})
+        if isinstance(user_input, dict) and "answer" in user_input:
+            answer = user_input["answer"]
+        else:
+            warnings.warn(
+                "User input should be a dict with an 'answer' key. "
+                "String format is deprecated and will be removed in a future version.",
+                DeprecationWarning,
+            )
+            answer = user_input
         return {
             "question": state["question"],
             "answer": answer,
