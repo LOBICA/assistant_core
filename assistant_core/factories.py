@@ -44,7 +44,7 @@ class BaseAgentFactory(ABC):
         """
         Create a model instance.
         """
-        return load_openai_model(openai_api_key=self.config.OPENAI_API_KEY)
+        return load_openai_model(openai_api_key=self.config.get("OPENAI_API_KEY"))
 
     def create_resolver_node(self) -> ResolverNode:
         """
