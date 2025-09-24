@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Fix bug with OpenAI API key
 
 ## 0.6.2
 * Change version tags

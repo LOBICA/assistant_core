@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import TypedDict
 
 from langgraph.graph import StateGraph
 
@@ -7,9 +8,13 @@ from assistant_core.nodes import AgentNode, ResolverNode
 
 
 class BaseAgentFactory(ABC):
-    def __init__(self):
+    class FactoryConfig(TypedDict):
+        OPENAI_API_KEY: str
+
+    def __init__(self, config: FactoryConfig):
         super().__init__()
         self._model = None
+        self.config = config
 
     @property
     def model(self):
@@ -39,7 +44,7 @@ class BaseAgentFactory(ABC):
         """
         Create a model instance.
         """
-        return load_openai_model()
+        return load_openai_model(openai_api_key=self.config.OPENAI_API_KEY)
 
     def create_resolver_node(self) -> ResolverNode:
         """
