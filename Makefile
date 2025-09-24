@@ -23,7 +23,7 @@ install:
 	$(POETRY) install
 
 lock:
-	$(POETRY) lock
+	$(POETRY) lock --no-update
 
 update:
 	$(POETRY) update
