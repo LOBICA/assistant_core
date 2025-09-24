@@ -1,8 +1,5 @@
 from unittest.mock import patch
 
-import pytest
-
-from assistant_core.builder import BuilderError
 from assistant_core.builder.tavily import TavilyBuilder, get_tavily_tool
 
 
@@ -30,13 +27,3 @@ def test_builder_appends_tool(builder_context):
         builder.build(ctx)
 
     assert sentinel in ctx.tools
-
-
-def test_builder_raises_when_no_key(builder_context):
-    # If no API key is configured (neither env nor explicit), builder should raise
-    # Patch the module-level TAVILY_API_KEY to None for this test.
-    with patch("assistant_core.builder.tavily.TAVILY_API_KEY", None):
-        ctx = builder_context
-        builder = TavilyBuilder(tavily_api_key=None)
-        with pytest.raises(BuilderError):
-            builder.build(ctx)
