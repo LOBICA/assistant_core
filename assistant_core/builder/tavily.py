@@ -29,8 +29,7 @@ Error handling / edge cases:
 
 from langchain_tavily import TavilySearch
 
-from assistant_core.builder import BaseBuilder, BuilderContext, BuilderError
-from assistant_core.settings import TAVILY_API_KEY
+from assistant_core.builder import BaseBuilder, BuilderContext
 
 
 def get_tavily_tool(*, tavily_api_key, max_results=2, **kwargs):
@@ -61,10 +60,10 @@ class TavilyBuilder(BaseBuilder):
     provided `BuilderContext` during `build`.
     """
 
-    def __init__(self, tavily_api_key: str | None = None, **kwargs):
+    def __init__(self, tavily_api_key: str, **kwargs):
         super().__init__()
         # prefer explicit key passed to constructor; fall back to settings
-        self.tavily_api_key = tavily_api_key or TAVILY_API_KEY
+        self.tavily_api_key = tavily_api_key
         # additional keyword arguments forwarded to TavilySearch
         self.kwargs = kwargs
 
@@ -75,9 +74,6 @@ class TavilyBuilder(BaseBuilder):
         This makes the behavior explicit for callers who expect the tool
         to be present, rather than silently continuing.
         """
-
-        if self.tavily_api_key is None:
-            raise BuilderError("Tavily API key is required to build Tavily tool.")
 
         tavily_tool = get_tavily_tool(tavily_api_key=self.tavily_api_key, **self.kwargs)
         context.tools.append(tavily_tool)

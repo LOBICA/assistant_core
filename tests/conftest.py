@@ -29,7 +29,12 @@ def agent_node(mock_model):
 
 
 @pytest.fixture
-def agent_factory(mock_model, agent_node):
+def factory_config():
+    return BaseAgentFactory.FactoryConfig(OPENAI_API_KEY="test_key")
+
+
+@pytest.fixture
+def agent_factory(mock_model, agent_node, factory_config):
     class MockAgentFactory(BaseAgentFactory):
         def create_model(self):
             return mock_model
@@ -40,7 +45,7 @@ def agent_factory(mock_model, agent_node):
         def create_agent_node(self):
             return agent_node
 
-    return MockAgentFactory()
+    return MockAgentFactory(factory_config)
 
 
 @pytest.fixture
