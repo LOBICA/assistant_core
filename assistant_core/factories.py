@@ -10,6 +10,8 @@ from assistant_core.nodes import AgentNode, ResolverNode
 class BaseAgentFactory(ABC):
     class FactoryConfig(TypedDict):
         OPENAI_API_KEY: str
+        USE_RESPONSES_API: bool
+        VERBOSITY: str
 
     def __init__(self, config: FactoryConfig):
         super().__init__()
@@ -25,6 +27,13 @@ class BaseAgentFactory(ABC):
         if self._model is None:
             self._model = self.create_model()
         return self._model
+
+    @property
+    def use_responses_api(self) -> bool:
+        """
+        Check if the Responses API should be used.
+        """
+        return self.config.get("USE_RESPONSES_API", False)
 
     @abstractmethod
     def create_graph_builder(self) -> StateGraph:
@@ -44,7 +53,11 @@ class BaseAgentFactory(ABC):
         """
         Create a model instance.
         """
-        return load_openai_model(openai_api_key=self.config["OPENAI_API_KEY"])
+        return load_openai_model(
+            openai_api_key=self.config["OPENAI_API_KEY"],
+            use_responses_api=self.use_responses_api,
+            verbosity=self.config.get("VERBOSITY", "low"),
+        )
 
     def create_resolver_node(self) -> ResolverNode:
         """
