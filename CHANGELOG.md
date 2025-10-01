@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Revert back to use "v" prefix for tags
 
 ## 0.6.3
 * Fix bug with OpenAI API key
