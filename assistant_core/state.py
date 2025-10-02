@@ -14,3 +14,7 @@ class QuestionState(MessagesState):
 
 class NextProcessState(MessagesState):
     next: Annotated[str | None, replace] = None
+
+
+class LastResponseState(MessagesState):
+    last_response_id: Annotated[str | None, replace] = None
