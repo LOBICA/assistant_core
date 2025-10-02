@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Add support for OpenAI responses API
 
 ## v0.6.4
 * Revert back to use "v" prefix for tags
