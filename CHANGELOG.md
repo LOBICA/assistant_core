@@ -1,7 +1,9 @@
 # CHANGELOG
 
 ## NEXT
-* Add support for OpenAI responses API
+* OpenAI responses API is enabled by default
+* Add new load_default_model function
+* Deprecated load_openai_model function
 
 ## v0.6.4
 * Revert back to use "v" prefix for tags

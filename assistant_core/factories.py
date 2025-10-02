@@ -3,7 +3,7 @@ from typing import TypedDict
 
 from langgraph.graph import StateGraph
 
-from assistant_core.models import load_openai_model
+from assistant_core.models import load_default_model
 from assistant_core.nodes import AgentNode, ResolverNode
 
 
@@ -44,7 +44,7 @@ class BaseAgentFactory(ABC):
         """
         Create a model instance.
         """
-        return load_openai_model(openai_api_key=self.config["OPENAI_API_KEY"])
+        return load_default_model(openai_api_key=self.config["OPENAI_API_KEY"])
 
     def create_resolver_node(self) -> ResolverNode:
         """
