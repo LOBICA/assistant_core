@@ -19,34 +19,15 @@ class AgentNode(BaseNode, UsesModel):
     This node is used to interact with the user.
     """
 
-    def __init__(
-        self, prompts: list[str] = None, use_responses_api=False, *args, **kwargs
-    ):
+    def __init__(self, prompts: list[str] = None, *args, **kwargs):
         """Initialize the agent node with a prompt."""
         super().__init__(*args, **kwargs)
         prompts = prompts or []
         self.prompts = [SystemMessage(prompt) for prompt in prompts]
-        self.use_responses_api = use_responses_api
 
     def _get_messages(self, state: MessagesState) -> list[BaseMessage]:
         """Get the messages to be sent to the model."""
-        last_response_id = state.get("last_response_id")
-
-        if self.use_responses_api is False or last_response_id is None:
-            # include initial prompts for first messages
-            # or if not using Responses API
-            return self.prompts + state["messages"]
-
-        new_messages = []
-        for message in reversed(state["messages"]):
-            if message.response_metadata.get("id") == last_response_id:
-                break
-            new_messages.append(message)
-
-        new_messages.reverse()
-
-        # only return messages after last response
-        return new_messages
+        return self.prompts + state["messages"]
 
     async def __call__(self, state: dict, config: RunnableConfig) -> dict:
         """Execute the agent logic.
@@ -54,15 +35,7 @@ class AgentNode(BaseNode, UsesModel):
         Get a response from the model based on the provided prompts.
         """
         messages = self._get_messages(state)
-
-        if self.use_responses_api:
-            response = await self.model.ainvoke(
-                messages,
-                previous_response_id=state.get("last_response_id"),
-                config=config,
-            )
-        else:
-            response = await self.model.ainvoke(messages, config=config)
+        response = await self.model.ainvoke(messages, config=config)
 
         return {"messages": [response]}
 

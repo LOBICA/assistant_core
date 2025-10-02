@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
 import pytest
-from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from langchain_core.messages import SystemMessage
 from langgraph.types import Command
 
 from assistant_core.nodes import (
@@ -43,55 +43,6 @@ async def test_agent_node(mock_model, mock_config):
     )
 
     assert response["messages"][-1] == "Test response"
-
-
-async def test_agent_node_with_last_response_id(mock_model, mock_config):
-    mock_model.ainvoke.return_value = "Test response with last_response_id"
-
-    agent_node = AgentNode(
-        name="test_agent",
-        model=mock_model,
-        prompts=["You are a helpful assistant."],
-        use_responses_api=True,
-    )
-
-    messages = [
-        HumanMessage("This is a test"),
-        AIMessage("Test response", response_metadata={"id": "msg_1"}),
-        HumanMessage("Another message"),
-    ]
-
-    response = await agent_node(
-        {
-            "messages": messages,
-            "last_response_id": None,
-        },
-        config=mock_config,
-    )
-
-    mock_model.ainvoke.assert_awaited_once_with(
-        [SystemMessage("You are a helpful assistant.")] + messages,
-        previous_response_id=None,
-        config=mock_config,
-    )
-
-    mock_model.ainvoke.reset_mock()
-
-    response = await agent_node(
-        {
-            "messages": messages,
-            "last_response_id": "msg_1",
-        },
-        config=mock_config,
-    )
-
-    mock_model.ainvoke.assert_awaited_once_with(
-        [HumanMessage("Another message")],
-        previous_response_id="msg_1",
-        config=mock_config,
-    )
-
-    assert response["messages"][-1] == "Test response with last_response_id"
 
 
 async def test_prompt_node(mock_config):
