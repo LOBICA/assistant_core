@@ -10,7 +10,7 @@ DEFAULT_MODEL = GPT_5_NANO
 def load_openai_model(
     openai_api_key: str,
     model_name: str = DEFAULT_MODEL,
-    use_responses_api: bool = False,
+    use_previous_response_id: bool = True,
     verbosity: str = "low",
     **kwargs,
 ) -> ChatOpenAI:
@@ -18,6 +18,6 @@ def load_openai_model(
         api_key=openai_api_key,
         model=model_name,
         verbosity=verbosity,
-        use_responses_api=use_responses_api,
+        use_previous_response_id=use_previous_response_id,
         **kwargs,
     )
