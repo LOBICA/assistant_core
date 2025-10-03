@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Update dependencies
 * Add validation for new PRs
 * Add a builder that adds a prompt with the date and time
 * Add option to control entry point on builder
