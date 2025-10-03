@@ -30,4 +30,7 @@ class BaseDirector(ABC):
         for builder in self.builders:
             builder.build(context)
 
+        # Add the graph entrypoint
+        context.graph_builder.set_entry_point(context.entrypoint)
+
         return context.graph_builder

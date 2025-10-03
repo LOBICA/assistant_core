@@ -43,7 +43,6 @@ class SingleAgentDirector(BaseDirector):
         """
         super().make(context)
         AgentBuilder().build(context)
-        context.graph_builder.set_entry_point(context.agent_node.name)
 
         return context.graph_builder
 
