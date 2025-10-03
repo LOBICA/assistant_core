@@ -4,8 +4,7 @@ and makes it easy for reviewers to see what's required.
 -->
 
 ## Description
-
-A short description of the change. Link to any relevant issue(s) or RFC.
+A short description of the change.
 
 ## Type of change
 - [ ] Bugfix
@@ -15,14 +14,15 @@ A short description of the change. Link to any relevant issue(s) or RFC.
 - [ ] Chore
 
 ## Checklist
-Please run through the checklist and mark the items off before requesting review. These mirror the project's `CONTRIBUTING.md` guidelines.
-
+Please run through the checklist and mark the items off before requesting review.
 - [ ] Tests added/updated for changes in behavior
 - [ ] Linter/formatter run (make format / make lint)
 - [ ] Documentation updated (if applicable)
 - [ ] CHANGELOG.md updated with a short entry describing the change (Required)
 
+<!--
 If your change requires special setup or steps to verify, include them below.
+-->
 
 ## How to test
 Describe steps to reproduce or to run the test suite for the change.
