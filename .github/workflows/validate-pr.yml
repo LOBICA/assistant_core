@@ -19,7 +19,7 @@ jobs:
 
           # Check that CHANGELOG.md is modified in this PR
           echo "Checking for CHANGELOG.md updates..."
-          files_changed=$(git diff --name-only origin/${{ github.base_ref }}..HEAD || true)
+          files_changed=$(git diff --name-only origin/${{ github.base_ref }}.HEAD || true)
           echo "Files changed:\n$files_changed"
 
           if ! echo "$files_changed" | grep -qE "(^|/)CHANGELOG.md$"; then
