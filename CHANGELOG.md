@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## NEXT
+
+## v0.7.0
 * Update dependencies
 * Add validation for new PRs
 * Add a builder that adds a prompt with the date and time
