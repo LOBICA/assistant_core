@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Add a builder that adds a prompt with the date and time
 * Add option to control entry point on builder
 * OpenAI responses API is enabled by default
 * Add new load_default_model function
