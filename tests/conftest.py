@@ -2,10 +2,9 @@ from unittest import mock
 
 import pytest
 from langchain_core.language_models.chat_models import BaseChatModel
-from langgraph.graph import MessagesState, StateGraph
 
 from assistant_core.builder import BuilderContext
-from assistant_core.factories import BaseAgentFactory
+from assistant_core.factories import ContextFactory
 from assistant_core.nodes import AgentNode
 
 
@@ -30,24 +29,18 @@ def agent_node(mock_model):
 
 @pytest.fixture
 def factory_config():
-    return BaseAgentFactory.FactoryConfig(OPENAI_API_KEY="test_key")
+    return ContextFactory.FactoryConfig(OPENAI_API_KEY="test_key")
 
 
 @pytest.fixture
-def agent_factory(mock_model, agent_node, factory_config):
-    class MockAgentFactory(BaseAgentFactory):
-        def create_model(self):
-            return mock_model
-
-        def create_graph_builder(self):
-            return StateGraph(MessagesState)
-
-        def create_agent_node(self):
-            return agent_node
-
-    return MockAgentFactory(factory_config)
+def context_factory(mock_model, agent_node, factory_config):
+    return ContextFactory(
+        factory_config,
+        agent_factory=lambda _: agent_node,
+        model_factory=lambda _: mock_model,
+    )
 
 
 @pytest.fixture
-def builder_context(agent_factory):
-    return BuilderContext(agent_factory=agent_factory)
+def builder_context(context_factory):
+    return BuilderContext(context_factory=context_factory)

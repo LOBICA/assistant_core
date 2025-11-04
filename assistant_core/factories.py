@@ -1,23 +1,44 @@
-from abc import ABC, abstractmethod
-from typing import TypedDict
+import warnings
+from typing import Callable, TypedDict
 
-from langgraph.graph import StateGraph
+from langchain_core.language_models.chat_models import BaseChatModel
+from langchain_core.tools import BaseTool
+from langgraph.graph import MessagesState, StateGraph
 
 from assistant_core.models import load_default_model
 from assistant_core.nodes import AgentNode, ResolverNode
 
+AgentFactory = Callable[[BaseChatModel], AgentNode] | None
+GraphFactory = Callable[[], StateGraph] | None
+ModelFactory = Callable[["ContextFactory.FactoryConfig"], BaseChatModel] | None
+ResolverFactory = Callable[[], ResolverNode] | None
+BaseToolsFactory = Callable[[], list[BaseTool]] | None
 
-class BaseAgentFactory(ABC):
+
+class ContextFactory:
     class FactoryConfig(TypedDict):
         OPENAI_API_KEY: str
 
-    def __init__(self, config: FactoryConfig):
-        super().__init__()
-        self._model = None
+    def __init__(
+        self,
+        config: FactoryConfig,
+        *,
+        agent_factory: AgentFactory = None,
+        graph_factory: GraphFactory = None,
+        model_factory: ModelFactory = None,
+        resolver_factory: ResolverFactory = None,
+        base_tools_factory: BaseToolsFactory = None,
+    ):
+        self._model: BaseChatModel | None = None
         self.config = config
+        self._agent_factory = agent_factory
+        self._graph_factory = graph_factory
+        self._model_factory = model_factory
+        self._resolver_factory = resolver_factory
+        self._base_tools_factory = base_tools_factory
 
     @property
-    def model(self):
+    def model(self) -> BaseChatModel:
         """
         Get the model instance.
         If not already created, it will create one using the factory method.
@@ -26,34 +47,56 @@ class BaseAgentFactory(ABC):
             self._model = self.create_model()
         return self._model
 
-    @abstractmethod
     def create_graph_builder(self) -> StateGraph:
         """
         Create a graph builder instance.
         """
-        raise NotImplementedError("Subclasses must implement this method")
+        if self._graph_factory:
+            return self._graph_factory()
 
-    @abstractmethod
+        return StateGraph(MessagesState)
+
     def create_agent_node(self) -> AgentNode:
         """
         Create an agent instance.
         """
-        raise NotImplementedError("Subclasses must implement this method")
+        if self._agent_factory:
+            return self._agent_factory(self.model)
 
-    def create_model(self):
+        raise NotImplementedError("Agent factory must be provided")
+
+    def create_model(self) -> BaseChatModel:
         """
         Create a model instance.
         """
+        if self._model_factory:
+            return self._model_factory(self.config)
+
         return load_default_model(openai_api_key=self.config["OPENAI_API_KEY"])
 
     def create_resolver_node(self) -> ResolverNode:
         """
         Create a resolver instance.
         """
+        if self._resolver_factory:
+            return self._resolver_factory()
+
         return ResolverNode(name="resolver")
 
-    def create_base_tools(self) -> list:
+    def create_base_tools(self) -> list[BaseTool]:
         """
         Create a set of base tools for the agent.
         """
+        if self._base_tools_factory:
+            return self._base_tools_factory()
+
         return []
+
+
+class BaseAgentFactory(ContextFactory):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        warnings.warn(
+            "BaseAgentFactory is deprecated, use ContextFactory instead.",
+            DeprecationWarning,
+        )

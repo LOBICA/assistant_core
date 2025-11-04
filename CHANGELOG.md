@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Replace BaseAgentFactory for ContextFactory for pluggable components (agent/graph/model/tools/resolver)
 
 ## v0.7.0
 * Update dependencies

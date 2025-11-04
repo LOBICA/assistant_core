@@ -1,13 +1,30 @@
-from assistant_core.factories import BaseAgentFactory
+import warnings
+
+from assistant_core.factories import ContextFactory
 
 
 class BuilderContext:
-    def __init__(self, agent_factory: BaseAgentFactory):
-        self.model = agent_factory.model
-        self.graph_builder = agent_factory.create_graph_builder()
-        self.agent_node = agent_factory.create_agent_node()
-        self.resolver_node = agent_factory.create_resolver_node()
-        self.tools = agent_factory.create_base_tools()
+    def __init__(
+        self,
+        context_factory: ContextFactory = None,
+        agent_factory: ContextFactory = None,
+    ):
+        if context_factory is None:
+            if agent_factory is None:
+                raise ValueError("context_factory must be provided")
+
+            warnings.warn(
+                "BuilderContext: 'agent_factory' is deprecated, "
+                "use 'context_factory' instead",
+                DeprecationWarning,
+            )
+            context_factory = agent_factory
+
+        self.model = context_factory.model
+        self.graph_builder = context_factory.create_graph_builder()
+        self.agent_node = context_factory.create_agent_node()
+        self.resolver_node = context_factory.create_resolver_node()
+        self.tools = context_factory.create_base_tools()
 
         self._entrypoint = None
 
