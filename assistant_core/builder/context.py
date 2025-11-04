@@ -1,6 +1,14 @@
 import warnings
+from typing import Self
 
-from assistant_core.factories import ContextFactory
+from assistant_core.factories import (
+    AgentFactory,
+    BaseToolsFactory,
+    ContextFactory,
+    GraphFactory,
+    ModelFactory,
+    ResolverFactory,
+)
 
 
 class BuilderContext:
@@ -19,6 +27,9 @@ class BuilderContext:
                 DeprecationWarning,
             )
             context_factory = agent_factory
+
+        # Keep a reference to enable cloning/customization
+        self._factory = context_factory
 
         self.model = context_factory.model
         self.graph_builder = context_factory.create_graph_builder()
@@ -42,3 +53,44 @@ class BuilderContext:
 
         self.graph_builder.add_edge(value, self.entrypoint)
         self._entrypoint = value
+
+    @classmethod
+    def create(
+        cls,
+        config: ContextFactory.FactoryConfig,
+        *,
+        agent_factory: AgentFactory,
+        graph_factory: GraphFactory = None,
+        model_factory: ModelFactory = None,
+        resolver_factory: ResolverFactory = None,
+        base_tools_factory: BaseToolsFactory = None,
+    ) -> Self:
+        factory = ContextFactory(
+            config,
+            agent_factory=agent_factory,
+            graph_factory=graph_factory,
+            model_factory=model_factory,
+            resolver_factory=resolver_factory,
+            base_tools_factory=base_tools_factory,
+        )
+        return cls(factory)
+
+    def clone(
+        self,
+        *,
+        agent_factory: AgentFactory = None,
+        graph_factory: GraphFactory = None,
+        model_factory: ModelFactory = None,
+        resolver_factory: ResolverFactory = None,
+        base_tools_factory: BaseToolsFactory = None,
+    ) -> Self:
+
+        new_factory = self._factory.clone(
+            agent_factory=agent_factory,
+            graph_factory=graph_factory,
+            model_factory=model_factory,
+            resolver_factory=resolver_factory,
+            base_tools_factory=base_tools_factory,
+        )
+
+        return self.__class__(new_factory)

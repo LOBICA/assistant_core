@@ -1,5 +1,5 @@
 import warnings
-from typing import Callable, TypedDict
+from typing import Callable, Self, TypedDict
 
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.tools import BaseTool
@@ -36,6 +36,33 @@ class ContextFactory:
         self._model_factory = model_factory
         self._resolver_factory = resolver_factory
         self._base_tools_factory = base_tools_factory
+
+    def clone(
+        self,
+        *,
+        agent_factory: AgentFactory = None,
+        graph_factory: GraphFactory = None,
+        model_factory: ModelFactory = None,
+        resolver_factory: ResolverFactory = None,
+        base_tools_factory: BaseToolsFactory = None,
+    ) -> Self:
+
+        agent_factory = agent_factory or self._agent_factory
+        graph_factory = graph_factory or self._graph_factory
+        model_factory = model_factory or self._model_factory
+        resolver_factory = resolver_factory or self._resolver_factory
+        base_tools_factory = base_tools_factory or self._base_tools_factory
+
+        new_factory = self.__class__(
+            self.config,
+            agent_factory=agent_factory,
+            graph_factory=graph_factory,
+            model_factory=model_factory,
+            resolver_factory=resolver_factory,
+            base_tools_factory=base_tools_factory,
+        )
+
+        return new_factory
 
     @property
     def model(self) -> BaseChatModel:
