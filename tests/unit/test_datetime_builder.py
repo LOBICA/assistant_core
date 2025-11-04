@@ -30,10 +30,12 @@ class FixedDateTime(datetime.datetime):
 def test_helpers_return_expected_strings():
     # Patch the datetime used in the module to our fixed datetime class
     with mock.patch("assistant_core.builder.datetime.datetime.datetime", FixedDateTime):
+        date_isoformat = _make_fixed_dt().isoformat()
         assert get_weekday(UTC) == "Friday"
-        assert get_current_time(UTC) == _make_fixed_dt().isoformat()
+        assert get_current_time(UTC) == date_isoformat
         expected_prompt = (
-            f"Today is Friday and the time is {_make_fixed_dt().isoformat()}."
+            f"CONTEXT: Today is Friday and the time is {date_isoformat}.\n"
+            "This is for internal use only. Do not provide date or time unless asked."
         )
         assert get_current_date_prompt(UTC) == expected_prompt
 

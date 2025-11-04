@@ -21,7 +21,10 @@ def get_current_time(TZ: ZoneInfo) -> str:
 
 def get_current_date_prompt(TZ: ZoneInfo) -> str:
     """Return the current date prompt."""
-    return f"Today is {get_weekday(TZ)} and the time is {get_current_time(TZ)}."
+    return (
+        f"CONTEXT: Today is {get_weekday(TZ)} and the time is {get_current_time(TZ)}.\n"
+        "This is for internal use only. Do not provide date or time unless asked."
+    )
 
 
 class DateTimeNode(PromptNode):

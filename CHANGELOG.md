@@ -2,6 +2,7 @@
 
 ## NEXT
 * Replace BaseAgentFactory for ContextFactory for pluggable components (agent/graph/model/tools/resolver)
+* Add an internal-use notice to datetime builder
 
 ## v0.7.0
 * Update dependencies
