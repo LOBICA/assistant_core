@@ -1,4 +1,4 @@
-from .agent import AgentBuilder, SingleAgent
+from .agent import AgentBuilder, MultiAgent, SingleAgent
 from .base import BaseBuilder, BaseDirector
-from .context import BuilderContext
+from .context import BuilderContext, MultiAgentContext
 from .exceptions import BuilderError

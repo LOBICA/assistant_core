@@ -16,3 +16,7 @@ instructions:
 
   - If the suggestion touches public APIs or behavior, encourage adding
     typed signatures and small unit tests.
+
+  - When suggesting commands to run tests or test-related scripts, prefer
+    invoking them via Poetry in this repository. Example: `poetry run pytest -q`.
+    This ensures the project's virtual environment and dev-dependencies are used.
