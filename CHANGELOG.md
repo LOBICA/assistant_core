@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## NEXT
+
+## v0.8.0
 * Replace BaseAgentFactory for ContextFactory for pluggable components (agent/graph/model/tools/resolver)
 * Add MultiAgent context and director with conditional entry points
 * Add MultiAgentState with `active_agent` selector
