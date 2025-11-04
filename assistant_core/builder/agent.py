@@ -2,7 +2,7 @@ from langgraph.graph import END, StateGraph
 from langgraph.prebuilt import ToolNode, tools_condition
 
 from .base import BaseBuilder, BaseDirector
-from .context import BuilderContext
+from .context import BuilderContext, MultiAgentContext
 
 
 class AgentBuilder(BaseBuilder):
@@ -48,3 +48,26 @@ class SingleAgentDirector(BaseDirector):
 
 
 SingleAgent = SingleAgentDirector
+
+
+class MultiAgentDirector(BaseDirector):
+    def make(self, context: MultiAgentContext) -> StateGraph:
+        """
+        Execute the build process for multiple agents.
+        """
+        for builder in self.builders:
+            builder.build(context)
+
+        if "default" not in context.entrypoint_mapping:
+            context.entrypoint_mapping["default"] = context.entrypoint
+
+        # Use conditional entry depending on state["active_agent"]
+        context.graph_builder.set_conditional_entry_point(
+            context.conditional_entrypoint_factory()
+        )
+        AgentBuilder().build(context)
+
+        return context.graph_builder
+
+
+MultiAgent = MultiAgentDirector

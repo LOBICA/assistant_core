@@ -2,6 +2,8 @@
 
 ## NEXT
 * Replace BaseAgentFactory for ContextFactory for pluggable components (agent/graph/model/tools/resolver)
+* Add MultiAgent context and director with conditional entry points
+* Add MultiAgentState with `active_agent` selector
 * Add an internal-use notice to datetime builder
 
 ## v0.7.0

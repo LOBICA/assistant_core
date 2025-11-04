@@ -4,7 +4,7 @@ from unittest import mock
 from langchain_core.language_models.chat_models import BaseChatModel
 from langgraph.graph import MessagesState, StateGraph
 
-from assistant_core.builder.context import BuilderContext
+from assistant_core.builder.context import BuilderContext, MultiAgentContext
 from assistant_core.nodes import AgentNode, PromptNode, ResolverNode
 
 
@@ -153,3 +153,23 @@ def test_init_with_deprecated_agent_factory_param(context_factory):
     ), "Expected a DeprecationWarning when using agent_factory param"
     assert ctx.agent_node.name == "test_agent"
     assert ctx.entrypoint == "test_agent"
+
+
+def test_multi_agent_context_selector_behavior(context_factory):
+    ctx = MultiAgentContext(context_factory)
+
+    # Default entrypoint is agent name
+    assert ctx.entrypoint == "test_agent"
+
+    # Map some agents to custom entrypoints
+    ctx.entrypoint_mapping["a1"] = "node_a1"
+    ctx.entrypoint_mapping["default"] = "node_default"
+
+    selector = ctx.conditional_entrypoint_factory()
+
+    # When no active_agent present, use mapping['default']
+    assert selector({}) == "node_default"
+    # Known active_agent → mapped entrypoint
+    assert selector({"active_agent": "a1"}) == "node_a1"
+    # Unknown active_agent → fallback to context.entrypoint (agent node)
+    assert selector({"active_agent": "unknown"}) == "test_agent"

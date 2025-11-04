@@ -3,7 +3,7 @@ from unittest import mock
 import pytest
 from langchain_core.language_models.chat_models import BaseChatModel
 
-from assistant_core.builder import BuilderContext
+from assistant_core.builder import BuilderContext, MultiAgentContext
 from assistant_core.factories import ContextFactory
 from assistant_core.nodes import AgentNode
 
@@ -44,3 +44,8 @@ def context_factory(mock_model, agent_node, factory_config):
 @pytest.fixture
 def builder_context(context_factory):
     return BuilderContext(context_factory=context_factory)
+
+
+@pytest.fixture
+def multi_agent_context(context_factory):
+    return MultiAgentContext(context_factory=context_factory)

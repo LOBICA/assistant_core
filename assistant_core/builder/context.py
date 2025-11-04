@@ -94,3 +94,19 @@ class BuilderContext:
         )
 
         return self.__class__(new_factory)
+
+
+class MultiAgentContext(BuilderContext):
+    """Context for multi-agent workflows with conditional entrypoint selection."""
+
+    def __init__(self, context_factory: ContextFactory):
+        super().__init__(context_factory)
+        self.entrypoint_mapping: dict[str, str] = {}
+
+    def conditional_entrypoint_factory(self):
+        def entrypoint_selector(state: dict):
+            return self.entrypoint_mapping.get(
+                state.get("active_agent", "default"), self.entrypoint
+            )
+
+        return entrypoint_selector
