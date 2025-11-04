@@ -46,6 +46,7 @@ class ContextFactory:
         resolver_factory: ResolverFactory = None,
         base_tools_factory: BaseToolsFactory = None,
     ) -> Self:
+        """Clone the factory with optional overrides for component factories."""
 
         agent_factory = agent_factory or self._agent_factory
         graph_factory = graph_factory or self._graph_factory

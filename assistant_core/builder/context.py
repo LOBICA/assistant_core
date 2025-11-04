@@ -1,5 +1,5 @@
 import warnings
-from typing import Self
+from typing import Callable, Self
 
 from assistant_core.factories import (
     AgentFactory,
@@ -65,6 +65,7 @@ class BuilderContext:
         resolver_factory: ResolverFactory = None,
         base_tools_factory: BaseToolsFactory = None,
     ) -> Self:
+        """Create a BuilderContext with a custom ContextFactory."""
         factory = ContextFactory(
             config,
             agent_factory=agent_factory,
@@ -84,7 +85,7 @@ class BuilderContext:
         resolver_factory: ResolverFactory = None,
         base_tools_factory: BaseToolsFactory = None,
     ) -> Self:
-
+        """Clone the context with optional overrides for component factories."""
         new_factory = self._factory.clone(
             agent_factory=agent_factory,
             graph_factory=graph_factory,
@@ -103,8 +104,12 @@ class MultiAgentContext(BuilderContext):
         super().__init__(context_factory)
         self.entrypoint_mapping: dict[str, str] = {}
 
-    def conditional_entrypoint_factory(self):
-        def entrypoint_selector(state: dict):
+    def conditional_entrypoint_factory(self) -> Callable[[dict], str]:
+        """
+        Return a selector callable that chooses an entrypoint based on state.
+        """
+
+        def entrypoint_selector(state: dict) -> str:
             return self.entrypoint_mapping.get(
                 state.get("active_agent", "default"), self.entrypoint
             )
