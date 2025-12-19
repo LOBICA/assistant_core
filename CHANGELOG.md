@@ -1,8 +1,6 @@
 # CHANGELOG
 
 ## NEXT
-
-## v0.9.0
 * Update langgraph version to improve security
 
 ## v0.8.0
