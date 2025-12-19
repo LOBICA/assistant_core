@@ -2,6 +2,9 @@
 
 ## NEXT
 
+## v0.9.0
+* Update langgraph version to improve security
+
 ## v0.8.0
 * Replace BaseAgentFactory for ContextFactory for pluggable components (agent/graph/model/tools/resolver)
 * Add MultiAgent context and director with conditional entry points
