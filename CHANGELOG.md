@@ -1,7 +1,7 @@
 # CHANGELOG
 
 ## NEXT
-* Update langgraph version to improve security
+* Update langgraph and langchain versions to improve security
 
 ## v0.8.0
 * Replace BaseAgentFactory for ContextFactory for pluggable components (agent/graph/model/tools/resolver)
