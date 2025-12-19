@@ -8,9 +8,9 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-langchain = ">=0.3,<2.0"
+langchain = ">=1.0,<2.0"
 langchain-openai = "^0.3.3"
-langgraph = ">=0.3,<2.0"
+langgraph = ">=1.0,<2.0"
 python-dotenv = "^1.0.1"
 langchain-tavily = "^0.2.11"
 
