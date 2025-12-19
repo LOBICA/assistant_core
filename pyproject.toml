@@ -10,7 +10,7 @@ readme = "README.md"
 python = "^3.12"
 langchain = "^0.3.17"
 langchain-openai = "^0.3.3"
-langgraph = "^0.2.68"
+langgraph = ">=0.3"
 python-dotenv = "^1.0.1"
 langchain-tavily = "^0.2.11"
 
