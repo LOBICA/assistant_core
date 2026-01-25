@@ -4,7 +4,7 @@ import datetime
 from zoneinfo import ZoneInfo
 
 from assistant_core.builder import BaseBuilder
-from assistant_core.nodes import PromptNode
+from assistant_core.nodes import DataNode
 
 UTC = ZoneInfo("UTC")
 
@@ -27,17 +27,24 @@ def get_current_date_prompt(TZ: ZoneInfo) -> str:
     )
 
 
-class DateTimeNode(PromptNode):
+class DateTimeNode(DataNode):
     """Includes a prompt with the current date and time."""
 
-    def __init__(self, TZ: ZoneInfo = UTC, *args, **kwargs):
+    def __init__(
+        self, name: str = "date_time_node", TZ: ZoneInfo = UTC, *args, **kwargs
+    ):
         """Initialize the date and time node."""
         super().__init__(
-            name="date_time_node",
-            prompt=get_current_date_prompt(TZ),
+            name=name,
             *args,
             **kwargs,
         )
+        self.TZ = TZ
+
+    def __call__(self, state, config):
+        """Return the prompt with the current date and time."""
+        prompt = get_current_date_prompt(self.TZ)
+        return {"message": [self.system_message(prompt)]}
 
 
 class DateTimeBuilder(BaseBuilder):

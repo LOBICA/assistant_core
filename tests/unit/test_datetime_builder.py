@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 from unittest import mock
 from zoneinfo import ZoneInfo
@@ -44,8 +45,11 @@ def test_datetime_node_has_prompt():
     with mock.patch("assistant_core.builder.datetime.datetime.datetime", FixedDateTime):
         node = DateTimeNode(TZ=UTC)
         assert isinstance(node, DateTimeNode)
-        assert "Today is Friday" in node.prompt
-        assert _make_fixed_dt().isoformat() in node.prompt
+        output = node(state=None, config=None)
+        expected_prompt = get_current_date_prompt(UTC)
+        assert "message" in output
+        system_message = output["message"][0]
+        assert expected_prompt in system_message.content
 
 
 def test_datetime_builder_registers_node_and_entrypoint(builder_context):
@@ -64,3 +68,14 @@ def test_datetime_builder_registers_node_and_entrypoint(builder_context):
     # entrypoint should be set to the new node and an edge should have been created
     assert builder_context.entrypoint == "date_time_node"
     assert ("date_time_node", "test_agent") in builder_context.graph_builder.edges
+
+
+async def test_datetime_prompt_refresh():
+    current_time = datetime.datetime.now(UTC)
+    node = DateTimeNode(TZ=UTC)
+    for i in range(3):
+        test_time = current_time + datetime.timedelta(seconds=i)
+        messages = node(state=None, config=None)
+        system_message = messages["message"][0]
+        assert test_time.strftime("%Y-%m-%dT%H:%M:%S") in system_message.content
+        await asyncio.sleep(1)
