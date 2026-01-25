@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## NEXT
+
+## v0.9.1
 * Fix datetime node to always return the current time
 
 ## v0.9.0
