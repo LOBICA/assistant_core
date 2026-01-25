@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Fix datetime node to always return the current time
 
 ## v0.9.0
 * Update langgraph and langchain versions to improve security
