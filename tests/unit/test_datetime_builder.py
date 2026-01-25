@@ -1,4 +1,3 @@
-import asyncio
 import datetime
 from unittest import mock
 from zoneinfo import ZoneInfo
@@ -75,7 +74,11 @@ async def test_datetime_prompt_refresh():
     node = DateTimeNode(TZ=UTC)
     for i in range(3):
         test_time = current_time + datetime.timedelta(seconds=i)
-        messages = await node(state=None, config=None)
+        with mock.patch(
+            "assistant_core.builder.datetime.get_current_time",
+            return_value=test_time.isoformat(),
+        ):
+            messages = await node(state=None, config=None)
+
         system_message = messages["messages"][0]
         assert test_time.strftime("%Y-%m-%dT%H:%M:%S") in system_message.content
-        await asyncio.sleep(1)
