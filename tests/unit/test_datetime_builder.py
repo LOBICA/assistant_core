@@ -41,14 +41,14 @@ def test_helpers_return_expected_strings():
         assert get_current_date_prompt(UTC) == expected_prompt
 
 
-def test_datetime_node_has_prompt():
+async def test_datetime_node_has_prompt():
     with mock.patch("assistant_core.builder.datetime.datetime.datetime", FixedDateTime):
         node = DateTimeNode(TZ=UTC)
         assert isinstance(node, DateTimeNode)
-        output = node(state=None, config=None)
+        output = await node(state=None, config=None)
         expected_prompt = get_current_date_prompt(UTC)
-        assert "message" in output
-        system_message = output["message"][0]
+        assert "messages" in output
+        system_message = output["messages"][0]
         assert expected_prompt in system_message.content
 
 
@@ -75,7 +75,7 @@ async def test_datetime_prompt_refresh():
     node = DateTimeNode(TZ=UTC)
     for i in range(3):
         test_time = current_time + datetime.timedelta(seconds=i)
-        messages = node(state=None, config=None)
-        system_message = messages["message"][0]
+        messages = await node(state=None, config=None)
+        system_message = messages["messages"][0]
         assert test_time.strftime("%Y-%m-%dT%H:%M:%S") in system_message.content
         await asyncio.sleep(1)

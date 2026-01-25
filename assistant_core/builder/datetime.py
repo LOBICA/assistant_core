@@ -41,10 +41,10 @@ class DateTimeNode(DataNode):
         )
         self.TZ = TZ
 
-    def __call__(self, state, config):
+    async def __call__(self, state, config):
         """Return the prompt with the current date and time."""
         prompt = get_current_date_prompt(self.TZ)
-        return {"message": [self.system_message(prompt)]}
+        return {"messages": [self.system_message(prompt)]}
 
 
 class DateTimeBuilder(BaseBuilder):
