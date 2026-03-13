@@ -65,7 +65,7 @@ Before the agent wiring is finalized, directors run custom builders registered t
 
 A builder can:
 - register extra nodes
-- append tools to context.tools
+- append tools to context.tools (prefer grouping related domain tools per builder)
 - push a new entrypoint
 
 Entrypoint behavior is intentionally LIFO:
