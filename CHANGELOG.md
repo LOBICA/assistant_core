@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Add assistant_core ARCHITECTURE.md documenting builder/context/node design and how single-agent and multi-agent graph assembly works, to align implementation and examples for contributors.
 
 ## v0.9.1
 * Fix datetime node to always return the current time
