@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## NEXT
+* Update example notebooks to use `BuilderContext.create(...)` and `agent_factory` instead of deprecated `BaseAgentFactory`.
 * Add `ARCHITECTURE.md` for assistant_core internals.
 * Add `AGENT_BUILD_REFERENCE.md` for from-scratch agent creation.
 * Clarify that the README is contributor-focused.
