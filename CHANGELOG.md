@@ -1,6 +1,11 @@
 # CHANGELOG
 
 ## NEXT
+* Update example notebooks to use `BuilderContext.create(...)` and `agent_factory` instead of deprecated `BaseAgentFactory`.
+* Add `ARCHITECTURE.md` for assistant_core internals.
+* Add `AGENT_BUILD_REFERENCE.md` for from-scratch agent creation.
+* Clarify that the README is contributor-focused.
+* Clarify that `AGENT_BUILD_REFERENCE.md` is for external-library integrations, including grouped-tool builder tips and GitHub install examples (pip/uv/Poetry/PDM).
 
 ## v0.9.1
 * Fix datetime node to always return the current time

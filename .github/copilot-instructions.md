@@ -14,6 +14,12 @@ instructions:
     - Run formatters and linters (make format / make lint).
     - Update documentation where applicable.
 
+  - ALWAYS verify the code after finishing running `make format lint`:
+    * Run tests to confirm formatting/linting changes don't break functionality
+    * Check for any remaining code issues or warnings
+    * Ensure all files have been processed correctly
+    * Report the verification results to the user
+
   - If the suggestion touches public APIs or behavior, encourage adding
     typed signatures and small unit tests.
 

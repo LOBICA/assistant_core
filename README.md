@@ -48,17 +48,22 @@ See `CONTRIBUTING.md` for full contributor guidance. Common developer commands:
 Notes
 - Pre-commit hooks in this repo are configured to call the Poetry-installed tools (black, isort, flake8). Make sure to run `make install` before `make pre-commit`.
 
+## Architecture and build references
+
+- `ARCHITECTURE.md` — package architecture focused on builders, nodes, and state flow.
+- `AGENT_BUILD_REFERENCE.md` — step-by-step instructions to build an agent from scratch with assistant_core.
+
 ## Project layout
 
 - `assistant_core/` — main package
-	- `nodes/` — Node implementations and mixins
-	- `builder.py` — Director/Builder for StateGraph composition
-	- `factories.py` — BaseAgentFactory (extension point)
-	- `models.py` — model adapter loader
-	- `state.py` — typed state classes used by nodes
+  - `nodes/` — Node implementations and mixins
+  - `builder/` — Directors/builders and build context
+  - `factories.py` — ContextFactory and component factory extension points
+  - `models.py` — model adapter loader
+  - `state.py` — typed state classes used by nodes
 
 Extension points
-- Implement a subclass of `BaseAgentFactory` to provide a model and tools.
+- Use `ContextFactory`/`BuilderContext.create(...)` to provide model, graph, resolver, tools, and agent factories.
 - Add new Node types under `assistant_core/nodes/`.
 
 ## Troubleshooting
