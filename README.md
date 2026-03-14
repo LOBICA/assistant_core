@@ -56,14 +56,14 @@ Notes
 ## Project layout
 
 - `assistant_core/` — main package
-	- `nodes/` — Node implementations and mixins
-	- `builder/` — Directors/builders and build context
-	- `factories.py` — ContextFactory and component factory extension points
-	- `models.py` — model adapter loader
-	- `state.py` — typed state classes used by nodes
+  - `nodes/` — Node implementations and mixins
+  - `builder/` — Directors/builders and build context
+  - `factories.py` — ContextFactory and component factory extension points
+  - `models.py` — model adapter loader
+  - `state.py` — typed state classes used by nodes
 
 Extension points
-- Use `ContextFactory`/`BuilderContext.create(...)` to provide model, graph, resolver, and tools factories.
+- Use `ContextFactory`/`BuilderContext.create(...)` to provide model, graph, resolver, tools, and agent factories.
 - Add new Node types under `assistant_core/nodes/`.
 
 ## Troubleshooting

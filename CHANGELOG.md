@@ -1,8 +1,10 @@
 # CHANGELOG
 
 ## NEXT
-* Add architecture and implementation guides: new `ARCHITECTURE.md` for assistant_core internals and new `AGENT_BUILD_REFERENCE.md` with from-scratch agent creation guidance.
-* Refine documentation for intended audiences and integration workflows: README remains contributor-focused, while AGENT_BUILD_REFERENCE is external-library focused with grouped-tool builder recommendations and GitHub installation examples (pip/uv/Poetry/PDM).
+* Add `ARCHITECTURE.md` for assistant_core internals.
+* Add `AGENT_BUILD_REFERENCE.md` for from-scratch agent creation.
+* Clarify that the README is contributor-focused.
+* Clarify that `AGENT_BUILD_REFERENCE.md` is for external-library integrations, including grouped-tool builder tips and GitHub install examples (pip/uv/Poetry/PDM).
 
 ## v0.9.1
 * Fix datetime node to always return the current time

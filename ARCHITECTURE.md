@@ -200,7 +200,7 @@ Unit tests enforce the following architectural behaviors:
 
 - Environment values are loaded via dotenv in assistant_core/settings.py.
 - OPENAI_API_KEY is required when using the default model factory path (load_default_model).
-- A Tavily API key is required when using TavilySearch integrations; it can be provided from environment settings or passed explicitly to TavilyBuilder.
+- A Tavily API key is required when using TavilySearch integrations; callers should read it from environment settings (for example via assistant_core/settings.py) and pass the value explicitly to TavilyBuilder.
 
 ## Package Boundary
 
