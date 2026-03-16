@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Determine tag
         id: vars
@@ -55,14 +55,11 @@ jobs:
           fi
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG_NAME: ${{ steps.vars.outputs.tag }}
-          RELEASE_BODY: ${{ steps.changelog.outputs.body }}
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.TAG_NAME }}
-          release_name: ${{ env.TAG_NAME }}
-          body: ${{ env.RELEASE_BODY }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.vars.outputs.tag }}
+          name: ${{ steps.vars.outputs.tag }}
+          body: ${{ steps.changelog.outputs.body }}
           draft: false
           prerelease: false
