@@ -2,6 +2,7 @@
 
 ## NEXT
 * Update dependencies
+* Add `STORE_USAGE_PATTERNS.md` documenting store API usage patterns for library consumers.
 * Replace deprecated `actions/create-release@v1` with `softprops/action-gh-release@v2` in the release workflow to avoid legacy Node runtime usage.
 * Update example notebooks to use `BuilderContext.create(...)` and `agent_factory` instead of deprecated `BaseAgentFactory`.
 * Add `ARCHITECTURE.md` for assistant_core internals.
